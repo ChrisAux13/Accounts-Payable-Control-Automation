@@ -14,7 +14,7 @@ componentStates:
     - name: Payment files must be generated in the correct format for each payment
         method
       glueImplemented: true
-      serviceImplemented: false
+      serviceImplemented: true
       implementationComplete: false
 componentSorting:
 - Payments

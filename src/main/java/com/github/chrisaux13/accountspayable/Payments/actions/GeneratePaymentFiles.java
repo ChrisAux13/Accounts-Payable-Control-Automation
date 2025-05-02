@@ -3,6 +3,7 @@ package com.github.chrisaux13.accountspayable.Payments.actions;
 import org.springframework.stereotype.Component;
 import lombok.RequiredArgsConstructor;
 import com.github.chrisaux13.accountspayable.Payments.model.Payment;
+import com.github.chrisaux13.accountspayable.Payments.model.PaymentFileGenerationService;
 import com.github.chrisaux13.accountspayable.Payments.model.PaymentMethodType;
 import java.util.List;
 import java.util.Map;
@@ -14,6 +15,8 @@ import java.util.Map;
 @Component
 @RequiredArgsConstructor
 public class GeneratePaymentFiles {
+
+    private final PaymentFileGenerationService paymentFileGenerationService;
     
     /**
      * Executes the action to generate payment files for approved invoices.
@@ -22,6 +25,6 @@ public class GeneratePaymentFiles {
      * @return A map of payment method types to their corresponding generated file paths
      */
     public Map<PaymentMethodType, String> execute(List<Payment> approvedPayments) {
-        throw new UnsupportedOperationException("Not implemented yet");
+        return paymentFileGenerationService.generatePaymentFiles(approvedPayments);
     }
 }
