@@ -1,5 +1,11 @@
 ---
-componentStates: []
+componentStates:
+- name: Payments
+  implementationComplete: false
+  packageCreated: true
+  modelState:
+    implementationComplete: false
+  useCases: null
 componentSorting:
 - Payments
 componentsSorted: true
