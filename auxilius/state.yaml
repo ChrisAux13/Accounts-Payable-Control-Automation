@@ -4,7 +4,7 @@ componentStates:
   implementationComplete: false
   packageCreated: true
   modelState:
-    implementationComplete: false
+    implementationComplete: true
   useCases: null
 componentSorting:
 - Payments
