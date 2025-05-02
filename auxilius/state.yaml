@@ -15,7 +15,7 @@ componentStates:
         method
       glueImplemented: true
       serviceImplemented: true
-      implementationComplete: false
+      implementationComplete: true
 componentSorting:
 - Payments
 componentsSorted: true

@@ -25,10 +25,15 @@ public class PaymentFileGenerationService {
             String filePath;
             switch (method) {
                 case BANK_TRANSFER:
+                case ACH:
                     filePath = generateNACHAFile(payments);
                     break;
                 case CHECK:
                     filePath = generateCheckPrintingFile(payments);
+                    break;
+                case WIRE_TRANSFER:
+                case SWIFT:
+                    filePath = generateSWIFTFile(payments);
                     break;
                 case CREDIT_CARD:
                 case DEBIT_CARD:
@@ -67,6 +72,10 @@ public class PaymentFileGenerationService {
     
     private String generateCheckPrintingFile(List<Payment> checkPayments) {
         return generateFile(checkPayments, "CheckPrinting", "pdf");
+    }
+
+    private String generateSWIFTFile(List<Payment> swiftPayments) {
+        return generateFile(swiftPayments, "SWIFT", "iso20022");
     }
 
     private String generateFile(List<Payment> payments, String fileType, String extension) {

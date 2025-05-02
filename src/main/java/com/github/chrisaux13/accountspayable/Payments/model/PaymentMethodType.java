@@ -6,5 +6,8 @@ public enum PaymentMethodType {
     BANK_TRANSFER,
     CHECK,
     CASH,
-    OTHER
+    OTHER,
+    ACH, 
+    WIRE_TRANSFER,
+    SWIFT
 }

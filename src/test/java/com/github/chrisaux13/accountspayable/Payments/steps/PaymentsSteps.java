@@ -39,7 +39,7 @@ public class PaymentsSteps {
 
         Payment payment = new Payment();
         payment.setVendor(vendor);
-        payment.setPaymentMethod(PaymentMethodType.valueOf(paymentMethod));
+        payment.setPaymentMethod(PaymentMethodType.valueOf(paymentMethod.toUpperCase().replace(" ", "_")));
         payment.setAmount(new BigDecimal("100.00"));
         payment.setStatus(PaymentStatusType.COMPLETED);
         payment = paymentRepository.save(payment);
@@ -57,18 +57,37 @@ public class PaymentsSteps {
         PaymentMethodType paymentMethod = approvedPayments.get(0).getPaymentMethod();
         String filePath = generatedFiles.get(paymentMethod);
         assertThat(filePath).isNotNull();
-        assertThat(filePath).endsWith("." + format.toLowerCase());
+        if (format.equalsIgnoreCase("check printing")) {
+            assertThat(filePath).endsWith(".pdf");
+        } else if (format.equalsIgnoreCase("ISO20022") || format.equalsIgnoreCase("MT103")) {
+            assertThat(filePath).matches(".*\\.(iso20022|mt103)$");
+        }
     }
 
     @And("contain all required {word} payment details")
     public void containAllRequiredPaymentDetails(String paymentMethod) {
-        PaymentMethodType methodType = PaymentMethodType.valueOf(paymentMethod);
+        PaymentMethodType methodType = PaymentMethodType.valueOf(paymentMethod.toUpperCase().replace(" ", "_"));
         String filePath = generatedFiles.get(methodType);
         assertThat(filePath).isNotNull();
 
         // Here you would typically read the file and verify its contents
         // For this example, we'll just check that the file exists
         assertThat(new java.io.File(filePath)).exists();
+    }
+
+    @Given("there are approved invoices for wire transfers")
+    public void thereAreApprovedInvoicesForWireTransfers() {
+        thereAreApprovedInvoicesForPayments("WIRE_TRANSFER");
+    }
+
+    @Then("the file should be in check printing format")
+    public void theFileShouldBeInCheckPrintingFormat() {
+        theFileShouldBeInFormat("check printing");
+    }
+
+    @Then("contain all required wire transfer details")
+    public void containAllRequiredWireTransferDetails() {
+        containAllRequiredPaymentDetails("WIRE_TRANSFER");
     }
 
     private void verifyPaymentFileFormat(String filePath, String expectedFormat) {
@@ -105,6 +124,9 @@ public class PaymentsSteps {
                 break;
             case CHECK:
                 // Verify check payment details
+                break;
+            case WIRE_TRANSFER:
+                // Verify wire transfer payment details
                 break;
             default:
                 fail("Unexpected payment method: " + paymentMethod);
