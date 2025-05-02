@@ -5,7 +5,12 @@ componentStates:
   packageCreated: true
   modelState:
     implementationComplete: true
-  useCases: null
+  useCases:
+  - name: System automatically generates payment files for different payment methods
+    actionImplemented: true
+    actionClassName: GeneratePaymentFiles
+    implementationComplete: false
+    rules: null
 componentSorting:
 - Payments
 componentsSorted: true
